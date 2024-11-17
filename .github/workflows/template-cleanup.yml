@@ -1,6 +1,5 @@
-# GitHub Actions Workflow responsible for cleaning up the IntelliJ Platform Plugin Template repository from
-# the template-specific files and configurations. This workflow is supposed to be triggered automatically
-# when a new template-based repository has been created.
+# GitHub Actions Workflow responsible for cleaning up the IntelliJ Platform Plugin Template repository from the template-specific files and configurations.
+# This workflow is supposed to be triggered automatically when a new template-based repository has been created.
 
 name: Template Cleanup
 on:
@@ -18,9 +17,9 @@ jobs:
       contents: write
     steps:
 
-      # Check out current repository
+      # Check out the current repository
       - name: Fetch Sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Cleanup project
       - name: Cleanup
@@ -42,13 +41,13 @@ jobs:
 
           # Replace template package name in project files with $GROUP
           find src -type f -exec sed -i "s/org.jetbrains.plugins.template/$GROUP/g" {} +
-          find src -type f -exec sed -i "s/Template/$NAME/g" {} +
+          find src -type f -exec sed -i "s/IntelliJ Platform Plugin Template/$NAME/g" {} +
           find src -type f -exec sed -i "s/JetBrains/$ACTOR/g" {} +
 
           # Move content
           mkdir -p src/main/kotlin/${GROUP//.//}
           mkdir -p src/test/kotlin/${GROUP//.//}
-          cp -R .github/template-cleanup/* .
+          cp -R .github/template-cleanup/. .
           cp -R src/main/kotlin/org/jetbrains/plugins/template/* src/main/kotlin/${GROUP//.//}/
           cp -R src/test/kotlin/org/jetbrains/plugins/template/* src/test/kotlin/${GROUP//.//}/
 
